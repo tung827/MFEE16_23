@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require("fs");
 const moment = require('moment'); 
 const Promise = require("bluebird")
-console.log(Promise);
+// console.log(Promise);
 
 //因為用 bluebird，所以不用自己包
 // function readFilePromise() {
