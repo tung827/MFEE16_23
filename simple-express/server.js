@@ -14,6 +14,12 @@ let app =  express();
 // 自動幫你為 public 裡面的檔案建立路由
 app.use(express.static("public"));
 
+// pug 
+// 第一個是變數
+// 第二個是檔案夾名稱
+app.set("views", "views");
+// 告訴 express 我們用的 view engine 是 pug
+app.set ("view engine", "pug");
 
 // 在 express 裡
 // req -> middlewares.... -> router
@@ -28,12 +34,15 @@ app.use(function (req, res, next){
 
 // 路由 router
 app.get("/", function(req, res){
-    res.end("Hello Express");
+    // res.end("Hello Express");
+    res.render("index");
+    // 中間件設定好去讀 views /index.pug
 });
 
 //express 由上而下，先找到就會停住。
 app.get("/about", function(req, res){
-    res.end("About Express AAAA");
+    // res.end("About Express AAAA");
+    res.render("about");
 });
 
 app.get("/about", function(req, res){
