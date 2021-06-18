@@ -9,6 +9,12 @@ let app =  express();
 // module 模組 < package < framework 框架
 // express is a package，完整到足以被稱為是框架
 
+
+// 可以指定一個或多個目錄是「靜態資源目錄」
+// 自動幫你為 public 裡面的檔案建立路由
+app.use(express.static("public"));
+
+
 // 在 express 裡
 // req -> middlewares.... -> router
 // 不管經過哪個 router 都會經過中間件
