@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 
 logs
 *.log
@@ -6,3 +6,5 @@ logs
 stock.txt
 
 .env
+
+.upload
