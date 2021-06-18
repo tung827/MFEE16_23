@@ -20,20 +20,22 @@
       var countBtn = document.getElementById("countBtn");
       var count = document.getElementById("count");
 
+      //計數器的按鈕
       countBtn.addEventListener("click", function () {
         count.innerText = parseInt(count.innerText, 10) + 1;
       });
       
     //非同步
       asyncBtn.addEventListener("click",function(){
-          //XMLHttpRequest
+          //XMLHttpRequest(物件)
           var xhr= new XMLHttpRequest();
           //HTTP method: GET, POST,...
           //URL
           //async: true / false 選擇同步或非同步
           xhr.open("GET","http://34.217.120.25:3000",true);
-          xhr.onload= function(response){
-              console.log(response);
+          //另一種寫法 xhr.addEventListener('load',function() {});
+          xhr.onload= function(){
+              console.log(this);
               message.innerHTML= `非同步: ${this.responseText}`; 
           }
           xhr.send();
