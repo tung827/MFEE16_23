@@ -1,3 +1,5 @@
+const connection = require("./utils/db")
+
 // http://expressjs.com/en/starter/hello-world.html
 // https://expressjs.com/zh-tw/starter/installing.html
 // 導入 express 這個 package
@@ -45,14 +47,22 @@ app.get("/about", function(req, res){
     res.render("about");
 });
 
-app.get("/about", function(req, res){
-    res.end("About Express BBBB");
-});
+// app.get("/about", function(req, res){
+//     res.end("About Express BBBB");
+// });
 
 app.get("/test", function(req, res){
     res.end("Test Express");
 });
 
-app.listen(3000, ()=>{
+app.get("/stock", async (req, res) =>{
+    let  queryResults = await connection.queryAsync("SELECT * FROM stock;");
+    res.render("stock/list", {stocks: queryResults});
+});
+
+
+app.listen(3000, async () => {
+    // 在 web server 開始的時候去連線資料庫
+    await connection.connectAsync();
     console.log("我跑起來了喔 在 port 3000");
 });
