@@ -55,9 +55,15 @@ app.get("/test", function(req, res){
     res.end("Test Express");
 });
 
-app.get("/stock", async (req, res) =>{
-    let  queryResults = await connection.queryAsync("SELECT * FROM stock;");
+app.get("/stock", async (req, res) => {
+    let queryResults = await connection.queryAsync("SELECT * FROM stock;");
     res.render("stock/list", {stocks: queryResults});
+});
+
+app.get("/stock/:stockCode", async (req, res) => {
+    // res.send(req.params.stockCode);
+    let queryResults = await connection.queryAsync("SELECT * FROM stock_price WHERE stock_id = ? ORDER BY date;", req.params.stockCode);
+    res.render("stock/detail", {stockPrices: queryResults});
 });
 
 

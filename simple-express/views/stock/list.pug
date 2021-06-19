@@ -12,5 +12,6 @@ block content
             th  股票名稱
         each stock in stocks 
             tr 
-                td #{stock.stock_id}
+                td 
+                    a(href=`/stock/${stock.stock_id}`) #{stock.stock_id}
                 td #{stock.stock_name}
