@@ -1,24 +1,51 @@
-table{
-    border: 0;
+body {
+    margin: 0;
+    padding: 0;
+}
+  
+#content {
+    padding: 10px;
+}
+  
+/* table */
+table {
     border-collapse: collapse;
-    border-radius: 8px;
-    width: 30%;
 }
-
-th {
-    color: white;
-    background-color: rgb(28, 124, 49);
-    border: solid 1px #949090;
-    padding: 10px 5px;
-}
-
+  
+th,
 td {
-    border: solid 1px #949090;
     text-align: center;
     padding: 8px;
-    color: #313030;
 }
-
-td {
-    background: rgb(255, 255, 255);
+  
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+  
+th {
+    background-color: #04aa6d;
+    color: white;
+}
+  
+/* pagination */
+.pagination {
+    display: inline-block;
+}
+  
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+  
+.pagination a.active {
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+}
+  
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
 }

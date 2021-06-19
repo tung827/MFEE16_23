@@ -77,6 +77,21 @@ app.get("/test", function(req, res){
 // });
 
 
+// 前面的路由都找不到
+app.use(function (req, res, next){
+    res.status(404);
+    res.render("404");
+})
+
+// 500 error
+//一定要有4個參數
+app.use(function (err, req, res, next){
+    console.log(err.message);
+    res.status(500);
+    res.send("500 - Internal Server Error")
+})
+
+
 app.listen(3000, async () => {
     // 在 web server 開始的時候去連線資料庫
     await connection.connectAsync();
