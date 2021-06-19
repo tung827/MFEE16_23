@@ -36,7 +36,8 @@ app.use(function (req, res, next){
 
 let stockRouter = require("./routes/stock");
 app.use("/stock", stockRouter);
-
+let apiRouter = require("./routes/api");
+app.use("/api", apiRouter);
 
 
 // 路由 router
@@ -78,18 +79,18 @@ app.get("/test", function(req, res){
 
 
 // 前面的路由都找不到
-app.use(function (req, res, next){
-    res.status(404);
-    res.render("404");
-})
+// app.use(function (req, res, next){
+//     res.status(404);
+//     res.render("404");
+// })
 
 // 500 error
 //一定要有4個參數
-app.use(function (err, req, res, next){
-    console.log(err.message);
-    res.status(500);
-    res.send("500 - Internal Server Error")
-})
+// app.use(function (err, req, res, next){
+//     console.log(err.message);
+//     res.status(500);
+//     res.send("500 - Internal Server Error")
+// })
 
 
 app.listen(3000, async () => {
