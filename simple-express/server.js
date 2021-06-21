@@ -1,15 +1,19 @@
-const connection = require("./utils/db")
+// module 模組 < package < framework 框架
+// express is a package，完整到足以被稱為是框架
 
-// http://expressjs.com/en/starter/hello-world.html
-// https://expressjs.com/zh-tw/starter/installing.html
+const connection = require("./utils/db")
 // 導入 express 這個 package
 const express = require("express");
-
 // 利用 express 建立一個 express application app
 let app =  express();
 
-// module 模組 < package < framework 框架
-// express is a package，完整到足以被稱為是框架
+
+// npm i body-parser
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.urlencoded({extended: false}));
+// 但是, express 在某版本後，有把 express.urlencoded 加回來所以可以直接用
+//加上這個中間件，我們就可以解讀 post 過來的資料
+app.use(express.urlencoded({extended: false}));
 
 
 // 可以指定一個或多個目錄是「靜態資源目錄」
@@ -38,7 +42,16 @@ let stockRouter = require("./routes/stock");
 app.use("/stock", stockRouter);
 let apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
+let authRouter = require("./routes/auth");
+app.use("/auth", authRouter);
 
+
+
+// app.use(function (err, req, res, next){
+//     console.log(err.message);
+//     res.status(500);
+//     res.send("500 - Internal Server Error")
+// })
 
 // 路由 router
 app.get("/", function(req, res){

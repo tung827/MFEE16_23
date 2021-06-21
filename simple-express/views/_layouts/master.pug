@@ -1,14 +1,15 @@
-doctype html
-html 
-    head 
-        title MFEE16EXPRESS 練習
-        meta(charset='utf-8')
-        link(rel='stylesheet', href='/styles/main.css')
-        script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+doctype html 
+html
+  head
+    title MFEE 16 Express 練習
+    meta(charset="utf-8")
+    link(rel="stylesheet", href="/styles/main.css")
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    
+    block scripts
 
-        block scripts 
-
-        body 
-            include header 
-                block content
-            include footer
+  body
+    include header 
+    #content
+      block content
+    include footer
