@@ -45,6 +45,13 @@ const uploader = multer({
 
 // 註冊
 router.get("/register", (req, res) => {
+  if(req.session.member) {
+    req.session.message = {
+      title: "重複註冊",
+      text: "你已經註冊過了喔"
+    };
+    return res.redirect(303, "/")
+  }
   res.render("auth/register");
 });
 
@@ -87,30 +94,82 @@ router.post("/register", uploader.single('photo'), registerRules, async(req, res
 
 // 登入
 router.get("/login", (req, res) => {
+  if(req.session.member) {
+    req.session.message = {
+      title: "重複登入",
+      text: "你已經登入過了喔"
+    };
+    return res.redirect(303, "/")
+  }
   res.render("auth/login");
 });
 
+// 登入表單驗證規則
+const loginRules = [
+  body("email").isEmail(),
+  body("password").isLength({ min: 6 }),
+];
 
-// const loginRules = [
-//   body("email").isEmail(),
-//   body("password").isLength({ min: 6 }),
-// ];
+router.post("/login", loginRules, async(req, res) => {
+  console.log(req.body)
+  
+  const validateResult = validationResult(req);
+  // 判斷不是空的，就是有問題（暫時這樣做）
+  if(!validateResult.isEmpty()) {
+      // console.log(validateResult);
+      return next(new Error("登入資料有問題"));
+  }
 
-// router.post("/login", loginRules, (req, res) => {
-//   console.log(req.body)
-//   res.send("登入結果？");
-// });
+  // 檢查email是否存在
+  let member = await connection.queryAsync("SELECT * FROM members WHERE email = ?", req.body.email);
+  // 大於0，代表有資料就可以存資料
+  if(member.length === 0) {
+      return next(new Error("查無此帳號"));
+  }
+  member = member[0];
+  // 比對密碼
+  // bcrypt 每次加密結果不一樣，不能單純比對字串
+  // 必須要用 bcrypt 提供的比對函式
+  let result = await bcrypt.compare(req.body.password, member.password)
+  if(result){
+    req.session.member = {
+      email: member.email,
+      name: member.name,
+      photo: member.photo,
+    };
 
-// const validateResult = validationResult(req);
-// if(!validateResult.isEmmpty()) {
-//   return next(new Error("註冊表單資料有問題"));
-// }
+    // 處理訊息
+    req.session.message = {
+      title: "登入成功",
+      text: "歡迎回到本服務"
+    };
+    // statusCode 303
+    res.redirect(303, "/");
+  } else {
+    req.session.member = null;
 
-// // 檢查一下這個 email 是否存在
-// let member = await connection.queryAsync(
-//   "SELECT * FROM members WHERE email = ?",
-//   req.body.email
-// );
+    // 處理訊息
+    req.session.message = {
+      title: "登入失敗",
+      text: "請填寫正確帳號、密碼"
+    };
+    // 轉跳到登入頁面
+    res.redirect(303, "/auth/login");
+  }
+
+  res.send("登入結果？");
+  
+});
+
+router.get("/logout", (req, res) => {
+  req.session.member = null;
+  // 處理訊息
+  req.session.message = {
+    title: "已登出",
+    text: "歡迎再回來喔",
+  };
+  res.redirect(303, "/");
+});
 
 
 module.exports = router;
