@@ -1,12 +1,14 @@
 // alert("test")
 
 
-// $.ajax({
-//     type: "GET",
-//     url: "/api/stocks",
-// }).done(function (data) {
-//     console.log(data)
-// });
+$(function () {
+    $.ajax({
+      type: "GET",
+      url: "/api/stocks",
+    }).done(function (data) {
+      console.log(data);
+    });
+});
 
 axios.get('/api/stocks')
 .then(function (response) {
@@ -16,12 +18,12 @@ axios.get('/api/stocks')
     console.log(error);
 })
 
-// fetch('/api/stocks')
-// .then(function(response) {
-//     return response.json();
-// })
-// .then(function(myJson) {
-//     console.log(myJson);
-// });
+fetch('/api/stocks')
+.then(function(response) {
+    return response.json();
+})
+.then(function(myJson) {
+    console.log(myJson);
+});
 
 
